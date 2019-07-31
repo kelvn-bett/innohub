@@ -5,7 +5,7 @@ from .models import Profile, Ideas
 
 # Register your models here.
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['user', 'gender', 'department', 'phone_number']
+    list_display = ['user', 'gender', 'category', 'phone_number']
 
 
 admin.site.register(Profile, ProfileAdmin)
