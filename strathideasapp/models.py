@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
-# from django.urls import reverse
+from django.urls import reverse
 # from PIL import Image
 
 # Create your models here.
@@ -25,7 +25,7 @@ class Profile(models.Model):
     )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
-    department = models.CharField(max_length=30)
+    category = models.CharField(max_length=30)
     phone_number = models.CharField(max_length=12)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
 
@@ -52,22 +52,29 @@ class Profile(models.Model):
 
 
 class Ideas(models.Model):
-    idea = models.AutoField(primary_key = True)
-    user = models.ForeignKey(User, on_delete = models.CASCADE)
-    title = models.CharField(max_length = 50)
-    problem_statement = models.TextField(max_length = 2000)
-    executive_summary = models.TextField(max_length = 2000)
-    objectives = models.TextField(max_length = 2000)
-    limitations = models.TextField(max_length = 2000)
+    idea = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=50)
+    # slug = models.SlugField(unique=True, blank=True)
+    problem_statement = models.TextField(max_length=2000)
+    executive_summary = models.TextField(max_length=2000)
+    objectives = models.TextField(max_length=2000)
+    limitations = models.TextField(max_length=2000)
     date_posted = models.DateTimeField(default=timezone.now)
-    likes = models.IntegerField(default = 0)
-    dislikes = models.IntegerField(default = 0)
+    likes = models.ManyToManyField(User, blank=True, related_name='idea_likes')
+    # dislikes = models.IntegerField(default = 0)
 
     def __str__(self):
         return self.title
 
-    # def get_absolute_url(self):
-    #     return reverse('strathideasapp:idea_detail', kwargs={'pk': self.pk})
+    def get_absolute_url(self):
+        return reverse('strathideasapp:idea_detail', kwargs={'pk': self.pk})
+
+    def get_like_url(self):
+        return reverse('strathideasapp:idea_like', kwargs={'pk': self.pk})
+
+    def get_api_like_url(self):
+        return reverse('strathideasapp:idea_like_api', kwargs={'pk': self.pk})
 
 
 class Incubator(models.Model):
@@ -89,14 +96,13 @@ class Industry_category(models.Model):
     description = models.CharField(max_length = 100)
 
 
-
-
 class Incubatees(models.Model):
     incubator = models.ForeignKey(Incubator,on_delete = models.CASCADE)
     idea = models.OneToOneField(Ideas, on_delete = models.CASCADE)
 
     def __str__(self):
         return self.idea
+
 
 class Company(models.Model):
     company = models.AutoField(primary_key = True)
@@ -115,42 +121,42 @@ class Comments(models.Model):
     idea = models.ForeignKey(Ideas, on_delete = models.CASCADE)
     name = models.CharField(max_length=80)
     body = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=True)
 
     class Meta:
-        ordering = ('created',)
+        ordering = ('timestamp',)
 
     def __str__(self):
         return self.name
 
+
 class Industry_committee(models.Model):
-    committee = models.AutoField(primary_key = True)
-    committee_name = models.CharField(max_length = 30)
+    committee = models.AutoField(primary_key=True)
+    committee_name = models.CharField(max_length=30)
     industry = models.OneToOneField(Industry_category, on_delete=models.CASCADE)
-    user = models.ForeignKey(Profile, on_delete = models.CASCADE)
-    comment = models.ForeignKey(Comments, on_delete = models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comments, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.committee_name
 
 
-class ThumbsSignal(models.Model):
-    signal = models.AutoField(primary_key=True)
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    idea = models.ForeignKey(Ideas, on_delete=models.CASCADE)
-    #thumbs_up = models.BooleanField(default = False)
-    #thumbs_down = models.BooleanField(default = False)
-    value = models.IntegerField()
-    date = models.DateTimeField(auto_now=True)
+# class ThumbsSignal(models.Model):
+#     signal = models.AutoField(primary_key=True)
+#     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+#     idea = models.ForeignKey(Ideas, on_delete=models.CASCADE)
+#     #thumbs_up = models.BooleanField(default = False)
+#     #thumbs_down = models.BooleanField(default = False)
+#     value = models.IntegerField()
+#     date = models.DateTimeField(auto_now=True)
 
 
 class OpinionPolls(models.Model):
     idea = models.ForeignKey(Ideas, on_delete=models.CASCADE)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     comment = models.OneToOneField(Comments, on_delete=models.CASCADE)
-    signal = models.OneToOneField(ThumbsSignal, on_delete=models.CASCADE)
+    # signal = models.OneToOneField(Ideation, on_delete=models.CASCADE)
     comment_reply = models.CharField(max_length=200)
     def __str__(self):
         return self.comment
