@@ -1,0 +1,26 @@
+{% extends 'strathideasapp/base.html' %}
+{% block content %}
+ <section >
+    <h2>Ideas List View</h2>
+
+    {% for idea in ideas %}
+ 
+      <!-- <div class="container"> -->
+
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ idea.user.profile.image.url }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ idea.user }}</a>
+              <small class="text-muted">{{ idea.date_posted|date:"F d, Y" }}</small>
+            </div>
+            <h3><a style="color: #33b7ff;" class="article-title" href="{% url 'strathideasapp:idea_detail' idea.idea %}">{{ idea.title }}</a></h3>
+            <p class="article-content">{{ idea.problem_statement }}</p>
+          </div>
+        </article>
+      <!-- </div> -->
+   
+    </section>
+
+    {% endfor %}
+{% endblock %} 

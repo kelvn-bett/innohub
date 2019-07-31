@@ -1,0 +1,39 @@
+ls
+cd ../../..
+cd Documents
+cd ideationProject
+ls
+venv\Scripts\activate
+cd ../../..
+cd user\Desktop
+cd ideationProject
+ls
+cls
+ls
+cd strathmore
+ls
+cd incubation
+ls
+python3 manage.py runserver
+./deactivate
+deactivate
+ld
+ls
+cd ../..
+ls 
+ideaenv\Scripts\activate
+python3 manage.py runserver
+cd strathmore
+cd incubation
+python3 manage.py runserver
+pip3 install mysqlclient
+python3 manage.py runserver
+python3 manage.py createsuperuser
+python3 manage.py runserver
+doskey \history > documentation.txt
+python3 manage.py runserver
+python3 manage.py makemigrations
+python3 manage.py migrate
+python3 manage.py createsuperuser
+python3 manage.py runserver
+doskey /history > documentation.txt
