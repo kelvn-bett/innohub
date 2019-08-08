@@ -9,14 +9,12 @@ db-sqlite3==0.0.1
 dj-database-url==0.5.0
 Django==2.2.2
 django-crispy-forms==1.7.2
-django-heroku==0.3.1
 gunicorn==19.9.0
 idna==2.8
 nltk==3.4
 pbr==5.4.1
 Pillow==6.1.0
 pipenv==2018.11.26
-psycopg2==2.8.3
 py4j==0.10.8.1
 pycparser==2.19
 PyMySQL==0.9.3
