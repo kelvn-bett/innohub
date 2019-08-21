@@ -184,7 +184,7 @@
                       </div>
                       <div class="col-md-4">
                           <div class="card" style="width: 18rem;">
-                              <img src="{% static 'images/inno_2.jpg' %}" class="card-img-top" alt="...">x
+                              <img src="{% static 'images/inno_2.jpg' %}" class="card-img-top" alt="...">
                               <div class="card-img-overlay">
                                   <h5 class="card-category"><div class="badge badge-info">category 1</div></h5>
                               </div>
@@ -257,8 +257,22 @@
           </div>
           </div>
           <div class="col-md-2">
-              <div class="container col-md-8 align-center" style="margin-top: 50px;">
-                  111111111111111111111111111
+              <div class="container col-md-8 align-center" style="margin-top: 50px; margin-right: 50px;">
+                  <div class="row">
+                      <select class="form-control" id="searchInput" style="width: 300px;">
+                          <option>category 1</option>
+                          <option>category 2</option>
+                          <option>category 3</option>
+                          <option>category 4</option>
+                          <option>category 5</option>
+                          <option>category 6</option>
+                          <option>category 7</option>
+                          <option>category 8</option>
+                          <option>category 9</option>
+                      </select>
+
+                  </div>
+                  <div class="row top-buffer"><button class="btn btn-primary" id="refreshbtn" >refresh</button></div>
               </div>
           </div>
           </div>
